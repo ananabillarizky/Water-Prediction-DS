@@ -21,10 +21,51 @@ st.set_page_config(
     layout="wide"
 )
 
+# Sidebar
+with st.sidebar:
+    st.title("💡 Tentang Aplikasi")
+    st.info(
+        """
+        Aplikasi ini memprediksi apakah air dapat diminum atau tidak berdasarkan parameter tertentu.
+        Dibuat menggunakan algoritma Random Forest Classifier dengan akurasi sekitar 78%.
+        """
+    )
+
+    st.markdown("### 📋 Parameter Air")
+    st.write(
+        """
+        - **pH**: Tingkat keasaman air (0-14)
+        - **Hardness**: Tingkat kesadahan air dalam mg/L
+        - **Solids**: Total padatan terlarut dalam mg/L
+        - **Chloramines**: Kadar kloramin dalam air (mg/L)
+        - **Sulfate**: Kadar sulfat dalam air (mg/L)
+        - **Conductivity**: Konduktivitas air dalam μS/cm
+        - **Organic Carbon**: Kadar karbon organik dalam mg/L
+        - **Trihalomethanes**: Kadar trihalometan dalam μg/L
+        - **Turbidity**: Tingkat kekeruhan air dalam NTU
+        
+        """)
+
 # Judul dan deskripsi
-st.title("💧 Prediksi Potabilitas Air menggunakan Random Forest")
+st.markdown("""
+<style>
+    .main-title {
+        text-align: center;
+        color: #3498db;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+    .description {
+        text-align: center;
+        color: #2ecc71;
+        font-size: 1.2rem;
+    }
+</style>
+<div class="main-title">💧 Prediksi Potabilitas Air menggunakan Random Forest</div>
+<div class="description">Masukkan parameter air untuk mengetahui apakah air dapat diminum atau tidak.</div>
+""", unsafe_allow_html=True)
 st.write("""
-### Aplikasi ini memprediksi apakah air dapat diminum atau tidak berdasarkan parameternya
 Dibuat oleh: Ananabilla Rizky Muhardanie (A11.2023.15502)
 """)
 
@@ -64,7 +105,7 @@ except Exception as e:
 st.write("### Masukkan Parameter Air")
 
 # Buat dua kolom untuk input
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     ph = st.number_input("pH",
@@ -83,6 +124,7 @@ with col1:
                             value=20000.0,
                             help="Total padatan terlarut")
 
+with col2:
     chloramines = st.number_input("Chloramines (mg/L)",
                                  min_value=0.0,
                                  value=4.0,
@@ -92,13 +134,12 @@ with col1:
                              min_value=0.0,
                              value=250.0,
                              help="Kadar sulfat dalam air")
-
-with col2:
     conductivity = st.number_input("Conductivity (μS/cm)",
                                   min_value=0.0,
                                   value=400.0,
                                   help="Konduktivitas air")
-
+    
+with col3:
     organic_carbon = st.number_input("Organic Carbon (mg/L)",
                                     min_value=0.0,
                                     value=10.0,
@@ -144,21 +185,7 @@ if st.button("Prediksi"):
         st.write("**Probabilitas:**")
         st.write(f"- Tidak Dapat Diminum: {prediction_proba[0]:.2%}")
         st.write(f"- Dapat Diminum: {prediction_proba[1]:.2%}")
-
-# Informasi tambahan
-with st.expander("ℹ️ Informasi Parameter"):
-    st.write("""
-    - **pH**: Tingkat keasaman air (0-14)
-    - **Hardness**: Tingkat kesadahan air dalam mg/L
-    - **Solids**: Total padatan terlarut dalam mg/L
-    - **Chloramines**: Kadar kloramin dalam air (mg/L)
-    - **Sulfate**: Kadar sulfat dalam air (mg/L)
-    - **Conductivity**: Konduktivitas air dalam μS/cm
-    - **Organic_carbon**: Kadar karbon organik dalam mg/L
-    - **Trihalomethanes**: Kadar trihalometan dalam μg/L
-    - **Turbidity**: Tingkat kekeruhan air dalam NTU
-    """)
-
+        
 # Footer
 st.markdown("---")
 st.markdown("### 📊 Model Information")
